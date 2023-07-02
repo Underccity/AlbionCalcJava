@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Items Directory</title>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row">
+			<h3>Items Directory</h3>
+		</div>
+		
+		
+		<table>
+       <tr>
+        <td>Рыбы</td>
+        <td>Получаемая разделанная рыба</td>
+        <td>Цена продажи рыбы</td>
+        <td>Получаемая сумма разделанной рыбы</td>
+        <td>Цена за единицу разделанной рыбы</td>
+        <td>Доход при продаже разделанной рыбы(за единицу)</td>
+    </tr>
+    <tr th:each="item: ${items}">
+    	<td th:text=${item.description} />
+    	<td th:text=${item.givenCount} />
+     	<td th:text="${#numbers.formatDecimal(item.minpriceoffer, 0, 'COMMA', 2, 'POINT')}" />
+    	<td th:text="${#numbers.formatDecimal(item.sumFishChop, 0, 'COMMA', 2, 'POINT')}" />
+    	<td th:text="${#numbers.formatDecimal(item.priceForOne, 0, 'COMMA', 2, 'POINT')}" />
+    	<td th:text="${#numbers.formatDecimal(item.profit, 0, 'COMMA', 2, 'POINT')}" />
+	</tr>
+</table>
+</body>
+</html>
