@@ -28,16 +28,16 @@ public class FishServiceImpl implements FishService {
 	public List<FishItem> getAllFish() throws StreamReadException, DatabindException, IOException {
 		HashMap<String, Item> items = itemsDao.getDictItems();
 		List<FishItem> result = new ArrayList<>();
-		if(itemsDao.checkExistItemPrices("T1_FISHCHOPS_1_1") && items.containsKey("T1_FISHCHOPS_1_1")) {
-			List<Craft> craftList = items.get("T1_FISHCHOPS_1_1").getCraft();
-			BigDecimal fishChopPrice = itemsDao.getMaxItemPrice("T1_FISHCHOPS_1_1", OrderType.REQUEST).multiply(new BigDecimal(0.92));
+		if(itemsDao.checkExistItemPrices("T1_FISHCHOPS") && items.containsKey("T1_FISHCHOPS")) {
+			List<Craft> craftList = items.get("T1_FISHCHOPS").getCraft();
+			BigDecimal fishChopPrice = itemsDao.getMaxItemPrice("T1_FISHCHOPS", OrderType.REQUEST, 1).multiply(new BigDecimal(0.92));
 			for(Craft craftItem: craftList) {
 				
 				FishItem fishItem = new FishItem();
 				
 				String itemName = craftItem.getCraftItems().get(0).getItemName();
 				String description = items.get(itemName).getDescription();
-				BigDecimal minPriceOffer = itemsDao.getMinItemPrice(itemName, OrderType.OFFER);
+				BigDecimal minPriceOffer = itemsDao.getMinItemPrice(itemName, OrderType.OFFER, 1);
 				int givenCount = craftItem.getGivenCount();
 				BigDecimal priceForOne = minPriceOffer.divide(new BigDecimal(givenCount));
 				

@@ -17,3 +17,16 @@ function disconnect() {
     }
     console.log("Disconnected");
 }
+
+
+function addCraft() {
+    var divCraft = $('#newCrafts');
+    var option = "";
+    $('#newCraftSelect option').toArray().forEach( function(opt) {
+  		option += "<option>" + opt.value + "</option>";
+	})
+	
+    var newSelect = "<select class='form-select'>" + option + "</select>";
+    var newInput = '<input class="form-control" type="text" placeholder="Количество" aria-label="Количество">';
+    divCraft.append('<div class="row p-2">' + '<div class="col-6">' + newSelect  + '</div>' + '<div class="col-4"> ' +  newInput + '</div>' + '</div>');
+}

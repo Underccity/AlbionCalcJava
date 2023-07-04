@@ -16,8 +16,8 @@ public interface ItemsDao {
 	
 	public HashMap<String, Item> getDictItems() throws StreamReadException, DatabindException, IOException;
 	public HashMap<String, List<ItemPrice>> getItemsPrices();
-	public BigDecimal getMinItemPrice(String itemName, OrderType orderType);
-	public BigDecimal getMaxItemPrice(String itemName, OrderType orderType);
+	public BigDecimal getMinItemPrice(String itemName, OrderType orderType, int quality);
+	public BigDecimal getMaxItemPrice(String itemName, OrderType orderType, int quality);
 	public boolean checkExistItemPrices(String itemName);
 	public boolean checkExistItemPrices(String itemName, OrderType orderType);
 	

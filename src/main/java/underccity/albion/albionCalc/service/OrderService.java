@@ -10,6 +10,6 @@ import com.fasterxml.jackson.databind.DatabindException;
 import underccity.albion.albionCalc.model.Item;
 
 public interface  OrderService {
-//	public HashMap<String, Item> getItems();
-//	public List<Item> getListItems() throws StreamReadException, DatabindException, IOException;
+	public HashMap<String, Item> getItems();
+	public List<Item> getListItems() throws StreamReadException, DatabindException, IOException;
 }

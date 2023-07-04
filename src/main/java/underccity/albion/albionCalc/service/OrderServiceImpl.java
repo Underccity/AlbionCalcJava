@@ -20,27 +20,27 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	ItemsDao itemsDao;
 	 
-//	 @Override
-//	    public HashMap<String, Item> getItems() {
-//		 
-//		 HashMap<String, Item> emptyMap = new HashMap();
-//	        try {
-//				return itemsDao.getItems();
-//			} catch (StreamReadException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (DatabindException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//	        return emptyMap;
-//	    }
-//
-//	@Override
-//	public List<Item> getListItems() throws StreamReadException, DatabindException, IOException {
-//		return (List<Item>) itemsDao.getItems().values();
-//	}
+	 @Override
+	    public HashMap<String, Item> getItems() {
+		 
+		 HashMap<String, Item> emptyMap = new HashMap();
+	        try {
+				return itemsDao.getDictItems();
+			} catch (StreamReadException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DatabindException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        return emptyMap;
+	    }
+
+	@Override
+	public List<Item> getListItems() throws StreamReadException, DatabindException, IOException {
+		return new ArrayList<Item>(itemsDao.getDictItems().values());
+	}
 }

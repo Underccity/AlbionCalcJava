@@ -33,7 +33,8 @@ public class ItemsDaoImpl implements ItemsDao {
 		itemPrice.setCity("Caerleon");
 		itemPrice.setOrderType(OrderType.REQUEST);
 		itemPrice.setPrice(new BigDecimal(182));
-		itemPrice.setItemName("T1_FISHCHOPS_1_1");
+		itemPrice.setItemName("T1_FISHCHOPS");
+		itemPrice.setQuality(1);
 		itemPrice.setAmount(10);
 		itemPriceList.add(itemPrice);
 		
@@ -42,11 +43,12 @@ public class ItemsDaoImpl implements ItemsDao {
 		itemPrice.setCity("Caerleon");
 		itemPrice.setOrderType(OrderType.OFFER);
 		itemPrice.setPrice(new BigDecimal(150));
-		itemPrice.setItemName("T1_FISHCHOPS_1_1");
+		itemPrice.setItemName("T1_FISHCHOPS");
+		itemPrice.setQuality(1);
 		itemPrice.setAmount(10);
 		itemPriceList.add(itemPrice);
 		
-		itemsPrices.put("T1_FISHCHOPS_1_1", itemPriceList);
+		itemsPrices.put("T1_FISHCHOPS", itemPriceList);
 		
 		
 		itemPriceList = new ArrayList<>();
@@ -55,11 +57,12 @@ public class ItemsDaoImpl implements ItemsDao {
 		itemPrice.setCity("Caerleon");
 		itemPrice.setOrderType(OrderType.OFFER);
 		itemPrice.setPrice(new BigDecimal(100));
-		itemPrice.setItemName("T1_FISH_FRESHWATER_ALL_COMMON_1_1");
+		itemPrice.setItemName("T1_FISH_FRESHWATER_ALL_COMMON");
+		itemPrice.setQuality(1);
 		itemPrice.setAmount(10);
 		itemPriceList.add(itemPrice);
 		
-		itemsPrices.put("T1_FISH_FRESHWATER_ALL_COMMON_1_1", itemPriceList);
+		itemsPrices.put("T1_FISH_FRESHWATER_ALL_COMMON", itemPriceList);
 		
 		itemPriceList = new ArrayList<>();
 		
@@ -67,11 +70,12 @@ public class ItemsDaoImpl implements ItemsDao {
 		itemPrice.setCity("Caerleon");
 		itemPrice.setOrderType(OrderType.OFFER);
 		itemPrice.setPrice(new BigDecimal(1200));
-		itemPrice.setItemName("T6_FISH_FRESHWATER_ALL_COMMON_1_1");
+		itemPrice.setItemName("T6_FISH_FRESHWATER_ALL_COMMON");
+		itemPrice.setQuality(1);
 		itemPrice.setAmount(10);
 		itemPriceList.add(itemPrice);
 		
-		itemsPrices.put("T6_FISH_FRESHWATER_ALL_COMMON_1_1", itemPriceList);
+		itemsPrices.put("T6_FISH_FRESHWATER_ALL_COMMON", itemPriceList);
 		
 	}
 	
@@ -79,7 +83,7 @@ public class ItemsDaoImpl implements ItemsDao {
 	public HashMap<String, Item> getDictItems() throws StreamReadException, DatabindException, IOException {
 		if(items == null) {
 			items = new HashMap<>();
-			String temp = "[ 	{	\"itemName\": \"T1_FISHCHOPS_1_1\",	\"qualityLevel\": 1,	\"enchantmentLevel\": 1,	\"description\": \"Разделанная рыба\",	\"craft\": [	{	\"givenCount\": 1,	\"craftItems\": [	{	\"itemName\": \"T1_FISH_FRESHWATER_ALL_COMMON_1_1\",	\"count\": 1	}	]	},	{	\"givenCount\": 8,	\"craftItems\": [	{	\"itemName\": \"T6_FISH_FRESHWATER_ALL_COMMON_1_1\",	\"count\": 1	}	]	}	] 	}, 	{	\"itemName\": \"T1_FISH_FRESHWATER_ALL_COMMON_1_1\",	\"qualityLevel\": 1,	\"enchantmentLevel\": 1,	\"description\": \"Красноперка обыкновенная\" 	}, 	{	\"itemName\": \"T6_FISH_FRESHWATER_ALL_COMMON_1_1\",	\"qualityLevel\": 1,	\"enchantmentLevel\": 1,	\"description\": \"Яркоперый судак\" 	} ]";
+			String temp = "[ 	{	\"itemName\": \"T1_FISHCHOPS\",	\"qualityLevel\": 1,	\"enchantmentLevel\": 1,	\"description\": \"Разделанная рыба\",	\"craft\": [	{	\"givenCount\": 1,	\"craftItems\": [	{	\"itemName\": \"T1_FISH_FRESHWATER_ALL_COMMON\",	\"count\": 1	}	]	},	{	\"givenCount\": 8,	\"craftItems\": [	{	\"itemName\": \"T6_FISH_FRESHWATER_ALL_COMMON\",	\"count\": 1	}	]	}	] 	}, 	{	\"itemName\": \"T1_FISH_FRESHWATER_ALL_COMMON\",	\"qualityLevel\": 1,	\"enchantmentLevel\": 1,	\"description\": \"Красноперка обыкновенная\" 	}, 	{	\"itemName\": \"T6_FISH_FRESHWATER_ALL_COMMON\",	\"qualityLevel\": 1,	\"enchantmentLevel\": 1,	\"description\": \"Яркоперый судак\" 	} ]";
 			List<Item> itemList = om.readValue(temp.getBytes(), new TypeReference<List<Item>>(){});
 			for(Item item : itemList) {
 				String itemName = item.getItemName();// + "_" + item.getEnchantmentLevel() + "_" + item.getQualityLevel(); 
@@ -99,13 +103,13 @@ public class ItemsDaoImpl implements ItemsDao {
 
 	
 	@Override
-	public BigDecimal getMinItemPrice(String itemName, OrderType orderType) {
+	public BigDecimal getMinItemPrice(String itemName, OrderType orderType, int quality) {
 		BigDecimal result = null;
 		if(itemsPrices != null && itemsPrices.containsKey(itemName)) {
 			List<ItemPrice> priceList = itemsPrices.get(itemName);
 			result = new BigDecimal(Integer.MAX_VALUE);
 			for(ItemPrice itemPrice : priceList) {
-				if(itemPrice.getOrderType() == orderType) {
+				if(itemPrice.getOrderType() == orderType && itemPrice.getQuality() == quality) {
 					if(itemPrice.getPrice().compareTo(result) < 0) {
 						result = itemPrice.getPrice();
 					}
@@ -116,13 +120,13 @@ public class ItemsDaoImpl implements ItemsDao {
 	}
 	
 	@Override
-	public BigDecimal getMaxItemPrice(String itemName, OrderType orderType) {
+	public BigDecimal getMaxItemPrice(String itemName, OrderType orderType, int quality) {
 		BigDecimal result = null;
 		if(itemsPrices != null && itemsPrices.containsKey(itemName)) {
 			List<ItemPrice> priceList = itemsPrices.get(itemName);
 			result = new BigDecimal(0);
 			for(ItemPrice itemPrice : priceList) {
-				if(itemPrice.getOrderType() == orderType) {
+				if(itemPrice.getOrderType() == orderType && itemPrice.getQuality() ==  quality) {
 					if(itemPrice.getPrice().compareTo(result) > 0) {
 						result = itemPrice.getPrice();
 					}

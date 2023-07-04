@@ -10,6 +10,7 @@ public class ItemPrice {
 	private String itemName;
 	private String city;
 	private OrderType orderType;
+	private int quality;
 	private BigDecimal price;
 	private int amount;
 }
